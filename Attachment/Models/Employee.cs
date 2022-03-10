@@ -25,5 +25,7 @@ namespace Attachment.Models
         public string Email { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? CreatedAOn { get; set; }
+
+        public virtual ICollection<Files> Files { get; set; }
     }
 }

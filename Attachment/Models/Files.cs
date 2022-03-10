@@ -16,9 +16,17 @@ namespace Attachment.Models
         [MaxLength(100)]
         public string Name { get; set; }
         [MaxLength(100)]
+        public string Description { get; set; }
         public string FileType { get; set; }
         [MaxLength]
         public byte[] DataFiles { get; set; }
         public DateTime? CreatedOn { get; set; }
+
+        public int EmployeeId { get; set; }
+        public virtual Employee Employee { get; set; }
+
+
+
+
     }
 }

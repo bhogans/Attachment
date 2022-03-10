@@ -19,8 +19,15 @@ namespace Attachment.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var items = _context.Employees.ToList();
+            return View(items);
         }
+
+        //public IActionResult GetFilesByEmployeeIdAsync(int id)
+        //{
+        //    var items = _context.Files.Where(f => f.EmployeeId == id).ToList<Files>();
+        //    return PartialView("_EmployeesAttachments", items);
+        //}
 
         [HttpPost]
         public IActionResult Index(IFormFile files)
@@ -34,14 +41,17 @@ namespace Attachment.Controllers
                     //Getting file Extension
                     var fileExtension = Path.GetExtension(fileName);
                     // concatenating  FileName + FileExtension
-                    var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
-
+                    //var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
+                    string newFileName = String.Format("Attachment {0}.png",
+                                DateTime.UtcNow.ToString("yyyy-MM-dd HH-mm-ss"));
                     var objfiles = new Files()
                     {
                         DocumentId = 0,
                         Name = newFileName,
                         FileType = fileExtension,
-                        CreatedOn = DateTime.Now
+                        CreatedOn = DateTime.Now,
+                        EmployeeId = 1
+                        
                     };
 
                     using (var target = new MemoryStream())

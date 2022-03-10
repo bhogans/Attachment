@@ -62,7 +62,7 @@ namespace Attachment.Migrations
                         {
                             EmployeeId = 1,
                             Age = 44,
-                            CreatedAOn = new DateTime(2022, 3, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAOn = new DateTime(2022, 3, 10, 0, 0, 0, 0, DateTimeKind.Local),
                             Email = "razhog@gmail.com",
                             FirstName = "Raziyah",
                             LastName = "Hogans",
@@ -73,7 +73,7 @@ namespace Attachment.Migrations
                         {
                             EmployeeId = 2,
                             Age = 44,
-                            CreatedAOn = new DateTime(2022, 3, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAOn = new DateTime(2022, 3, 10, 0, 0, 0, 0, DateTimeKind.Local),
                             Email = "mfrank@gmail.com",
                             FirstName = "Mike",
                             LastName = "Franklin",
@@ -84,7 +84,7 @@ namespace Attachment.Migrations
                         {
                             EmployeeId = 3,
                             Age = 44,
-                            CreatedAOn = new DateTime(2022, 3, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAOn = new DateTime(2022, 3, 10, 0, 0, 0, 0, DateTimeKind.Local),
                             Email = "jsmith@gmail.com",
                             FirstName = "John",
                             LastName = "Smith",
@@ -106,9 +106,15 @@ namespace Attachment.Migrations
                     b.Property<byte[]>("DataFiles")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("FileType")
+                    b.Property<string>("Description")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FileType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(100)
@@ -116,7 +122,25 @@ namespace Attachment.Migrations
 
                     b.HasKey("DocumentId");
 
+                    b.HasIndex("EmployeeId");
+
                     b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("Attachment.Models.Files", b =>
+                {
+                    b.HasOne("Attachment.Models.Employee", "Employee")
+                        .WithMany("Files")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("Attachment.Models.Employee", b =>
+                {
+                    b.Navigation("Files");
                 });
 #pragma warning restore 612, 618
         }

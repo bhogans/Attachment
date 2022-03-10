@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Attachment.DAL;
 using Attachment.Models;
+using Attachment.ViewModels;
 
 namespace Attachment.Controllers
 {
@@ -28,19 +29,24 @@ namespace Attachment.Controllers
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.EmployeeId == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
+            //var employee = await _context.Employees
+            //    .FirstOrDefaultAsync(m => m.EmployeeId == id);
+            //if (employee == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(employee);
+            //return View(employee);
+            var empViewModel = new EmployeeViewModel();
+            empViewModel.Employee = _context.Employees.Where(x => x.EmployeeId == id).FirstOrDefault();
+            empViewModel.FileList = _context.Files.Where(f => f.EmployeeId == id).ToList();
+
+            return View(empViewModel);
         }
 
         // GET: Employees/Create

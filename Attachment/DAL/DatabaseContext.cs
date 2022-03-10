@@ -13,12 +13,24 @@ namespace Attachment.DAL
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
-        public DbSet<Files> Files { get; set; }
+        
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Files> Files { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //optionsBuilder.UseSqlServer(@"Data Source=(localdb)\SQLExpress; Initial Catalog=Attachment1;");
+        }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //configures one-to-many relationship
+            modelBuilder.Entity<Employee>()
+                .HasMany(e => e.Files)
+                .WithOne(c => c.Employee);                
+                
 
             //Employee
             modelBuilder.Entity<Employee>()

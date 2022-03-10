@@ -1,8 +1,11 @@
-﻿@{
+﻿@model IEnumerable<Attachment.Models.Employee>
+@{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+@*<div>
+    <select asp-for="model.EmployeeId" asp-items="@Model.ToList()"></select></div>*@
 <div class="row">
     <div class="col-md-5">
         <form method="post" enctype="multipart/form-data" asp-controller="Attach" asp-action="Index">
